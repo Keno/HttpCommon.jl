@@ -173,14 +173,12 @@ type Response
     status::Int
     headers::Headers
     data::String
-    finished::Bool
 end
-Response(s::Int, h::Headers, d::String) = Response(s, h, d, false)
-Response(s::Int, h::Headers)            = Response(s, h, "", false)
-Response(s::Int, d::String)             = Response(s, headers(), d, false)
-Response(d::String, h::Headers)         = Response(200, h, d, false)
-Response(d::String)                     = Response(200, headers(), d,false)
-Response(s::Int)                        = Response(s, headers(), "", false)
+Response(s::Int, h::Headers)            = Response(s, h, "")
+Response(s::Int, d::String)             = Response(s, headers(), d)
+Response(d::String, h::Headers)         = Response(200, h, d)
+Response(d::String)                     = Response(200, headers(), d)
+Response(s::Int)                        = Response(s, headers(), "")
 Response()                              = Response(200)
 
 show(io::IO,r::Response) = print(io,"Response(",r.status," ",STATUS_CODES[r.status],", ",length(r.headers)," Headers, ",sizeof(r.data)," Bytes in Body)")
